@@ -18,44 +18,44 @@ namespace {
         return true;
     }
 
-    void visualise(const sf::Image& ogImage, const sf::Image& newImage) {
-        mutex.lock();
-        float w = (float)ogImage.getSize().x;
-        float h = (float)ogImage.getSize().y;
+    // void visualise(const sf::Image& ogImage, const sf::Image& newImage) {
+    //     mutex.lock();
+    //     float w = (float)ogImage.getSize().x;
+    //     float h = (float)ogImage.getSize().y;
 
-        sf::RenderWindow window({(unsigned)w, (unsigned)h}, "Pixelator");
-        window.setFramerateLimit(60);
+    //     sf::RenderWindow window({(unsigned)w, (unsigned)h}, "Pixelator");
+    //     window.setFramerateLimit(60);
     
 
-        sf::RectangleShape ogImageRect({w, h});
-        sf::RectangleShape newImageRect({w, h});
+    //     sf::RectangleShape ogImageRect({w, h});
+    //     sf::RectangleShape newImageRect({w, h});
 
-        sf::Texture ogTex;
-        ogTex.loadFromImage(ogImage);
-        ogImageRect.setTexture(&ogTex);
+    //     sf::Texture ogTex;
+    //     ogTex.loadFromImage(ogImage);
+    //     ogImageRect.setTexture(&ogTex);
 
-        sf::Texture newTex;
-        newTex.loadFromImage(newImage);
-        newImageRect.setTexture(&newTex);
-        mutex.unlock();
+    //     sf::Texture newTex;
+    //     newTex.loadFromImage(newImage);
+    //     newImageRect.setTexture(&newTex);
+    //     mutex.unlock();
 
-        while (window.isOpen()) {
-            sf::Event e;
-            while (window.pollEvent(e)) {
-                if (e.type == sf::Event::Closed) window.close();
-            }
-            window.clear();
+    //     while (window.isOpen()) {
+    //         sf::Event e;
+    //         while (window.pollEvent(e)) {
+    //             if (e.type == sf::Event::Closed) window.close();
+    //         }
+    //         window.clear();
 
-            mutex.lock();
-            newTex.loadFromImage(newImage);
-            mutex.unlock();
+    //         mutex.lock();
+    //         newTex.loadFromImage(newImage);
+    //         mutex.unlock();
 
-            window.draw(ogImageRect);
-            window.draw(newImageRect);
+    //         window.draw(ogImageRect);
+    //         window.draw(newImageRect);
 
-            window.display();
-        }
-    }
+    //         window.display();
+    //     }
+    // }
 }
 
 int main(int argc, char** argv) {
@@ -89,9 +89,9 @@ int main(int argc, char** argv) {
     sf::Image newImage;
     newImage.create(width, height, sf::Color::Transparent);
 
-    std::thread visualiseThread([&]() {
-        visualise(image, newImage);
-    });
+    // std::thread visualiseThread([&]() {
+    //     visualise(image, newImage);
+    // });
 
     std::vector<sf::Vector2u> pxlPositions;
     for (unsigned y = 0; y < height / pixelSize; y++) {
@@ -140,10 +140,10 @@ int main(int argc, char** argv) {
                 mutex.unlock();
             }
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        // std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     std::cout << "Saving image...\n";
     newImage.saveToFile("out.jpg");
     std::cout << "Complete!\n"; 
-    visualiseThread.join();
+    // visualiseThread.join();
 }
